@@ -40,24 +40,26 @@ target_include_directories(nrfx_hal
         ${nrfx_SOURCE_DIR}/haly)
 target_link_libraries(nrfx_hal INTERFACE nrf-mdk::definitions)
 
-add_library(nrfx_soc STATIC 
+add_library(nrfx_soc INTERFACE)
+target_sources(nrfx_soc INTERFACE
     ${nrfx_SOURCE_DIR}/soc/nrfx_atomic.c
     ${nrfx_SOURCE_DIR}/soc/interconnect/apb/nrfx_interconnect_apb.c
     ${nrfx_SOURCE_DIR}/soc/interconnect/dppic_ppib/nrfx_interconnect_dppic_ppib.c
     ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
 target_include_directories(nrfx_soc 
-    PUBLIC
+    INTERFACE
         ${nrfx_SOURCE_DIR}/soc)
-target_link_libraries(nrfx_soc PUBLIC nrfx_hal)
+target_link_libraries(nrfx_soc INTERFACE nrfx_hal)
 
 function(nrfx_make_driver name)
     string(TOUPPER ${name} upper_name)
-    add_library(nrfx_drivers_${name} STATIC ${ARGN})
+    add_library(nrfx_drivers_${name} INTERFACE)
+    target_sources(nrfx_drivers_${name} INTERFACE ${ARGN})
     add_library(nrfx::drivers::${name} ALIAS nrfx_drivers_${name})
-    target_link_libraries(nrfx_drivers_${name} PUBLIC nrfx_soc)
-    target_compile_definitions(nrfx_drivers_${name} PUBLIC NRFX_${upper_name}_ENABLED=1)
+    target_link_libraries(nrfx_drivers_${name} INTERFACE nrfx_soc)
+    target_compile_definitions(nrfx_drivers_${name} INTERFACE NRFX_${upper_name}_ENABLED=1)
     target_include_directories(nrfx_drivers_${name}
-        PUBLIC
+        INTERFACE
             ${nrfx_SOURCE_DIR}/drivers 
             ${nrfx_SOURCE_DIR}/drivers/include)
 endfunction()
@@ -104,11 +106,12 @@ nrfx_make_driver(vevif        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_vevif.c)
 nrfx_make_driver(wdt          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
 
 function(nrfx_make_helper name)
-    add_library(nrfx_helpers_${name} STATIC ${ARGN})
+    add_library(nrfx_helpers_${name} INTERFACE)
+    target_sources(nrfx_helpers_${name} INTERFACE ${ARGN})
     add_library(nrfx::helpers::${name} ALIAS nrfx_helpers_${name})
-    target_link_libraries(nrfx_helpers_${name} PUBLIC nrfx_soc)
+    target_link_libraries(nrfx_helpers_${name} INTERFACE nrfx_soc)
     target_include_directories(nrfx_helpers_${name}
-        PUBLIC
+    INTERFACE
             ${nrfx_SOURCE_DIR}/helpers)
 endfunction()
 
@@ -120,7 +123,7 @@ nrfx_make_helper(gppi
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c)
 nrfx_make_helper(ram_ctrl ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
 
-target_link_libraries(nrfx_helpers_gppi PUBLIC nrfx_drivers_ppi nrfx_drivers_dppi)
+target_link_libraries(nrfx_helpers_gppi INTERFACE nrfx_drivers_ppi nrfx_drivers_dppi)
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
