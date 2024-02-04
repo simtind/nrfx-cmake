@@ -52,72 +52,72 @@ target_sources(nrfx_soc
         ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
 target_link_libraries(nrfx_soc nrfx_hal)
 
-add_library(nrfx_drivers STATIC)
-target_include_directories(nrfx_drivers
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/drivers 
-        ${nrfx_SOURCE_DIR}/drivers/include)
-target_sources(nrfx_drivers 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/drivers/src/prs/nrfx_prs.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_adc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_bellboard.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_clock.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_comp.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_dppi.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_egu.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_gpiote.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_grtc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_i2s.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_ipc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_lpcomp.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_nfct.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_nvmc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_pdm.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_power.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_ppi.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_pwm.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_qdec.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_qspi.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rng.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rramc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rtc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_saadc.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spi.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spim.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spis.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_systick.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_tbm.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_temp.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_timer.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twi.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twi_twim.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twim.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twis.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_uart.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_uarte.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_usbd.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_usbd_errata.h
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_usbreg.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_vevif.c
-        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
-target_link_libraries(nrfx_drivers nrfx_hal)
+function(nrfx_make_driver name)
+    add_library(nrfx_drivers_${name} STATIC ${ARGN})
+    add_library(nrfx::drivers::${name} ALIAS nrfx_drivers_${name})
+    target_include_directories(nrfx_drivers_${name}
+        PUBLIC
+            ${nrfx_SOURCE_DIR}/drivers 
+            ${nrfx_SOURCE_DIR}/drivers/include)
+endfunction()
 
-add_library(nrfx_helpers STATIC)
-target_include_directories(nrfx_helpers 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/helpers)
-target_sources(nrfx_helpers 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_flag32_allocator.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
-target_link_libraries(nrfx_helpers nrfx_hal nrfx_drivers)
+nrfx_make_driver(prs          ${nrfx_SOURCE_DIR}/drivers/src/prs/nrfx_prs.c)
+nrfx_make_driver(adc          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_adc.c)
+nrfx_make_driver(bellboard    ${nrfx_SOURCE_DIR}/drivers/src/nrfx_bellboard.c)
+nrfx_make_driver(clock        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_clock.c)
+nrfx_make_driver(comp         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_comp.c)
+nrfx_make_driver(dppi         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_dppi.c)
+nrfx_make_driver(egu          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_egu.c)
+nrfx_make_driver(gpiote       ${nrfx_SOURCE_DIR}/drivers/src/nrfx_gpiote.c)
+nrfx_make_driver(grtc         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_grtc.c)
+nrfx_make_driver(i2s          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_i2s.c)
+nrfx_make_driver(ipc          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_ipc.c)
+nrfx_make_driver(lpcomp       ${nrfx_SOURCE_DIR}/drivers/src/nrfx_lpcomp.c)
+nrfx_make_driver(nfct         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_nfct.c)
+nrfx_make_driver(nvmc         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_nvmc.c)
+nrfx_make_driver(pdm          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_pdm.c)
+nrfx_make_driver(power        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_power.c)
+nrfx_make_driver(ppi          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_ppi.c)
+nrfx_make_driver(pwm          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_pwm.c)
+nrfx_make_driver(qdec         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_qdec.c)
+nrfx_make_driver(qspi         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_qspi.c)
+nrfx_make_driver(rng          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rng.c)
+nrfx_make_driver(rramc        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rramc.c)
+nrfx_make_driver(rtc          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_rtc.c)
+nrfx_make_driver(saadc        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_saadc.c)
+nrfx_make_driver(spi          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spi.c)
+nrfx_make_driver(spim         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spim.c)
+nrfx_make_driver(spis         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_spis.c)
+nrfx_make_driver(systick      ${nrfx_SOURCE_DIR}/drivers/src/nrfx_systick.c)
+nrfx_make_driver(tbm          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_tbm.c)
+nrfx_make_driver(temp         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_temp.c)
+nrfx_make_driver(timer        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_timer.c)
+nrfx_make_driver(twi          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twi.c ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twi_twim.c)
+nrfx_make_driver(twim         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twim.c ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twi_twim.c)
+nrfx_make_driver(twis         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_twis.c)
+nrfx_make_driver(uart         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_uart.c)
+nrfx_make_driver(uarte        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_uarte.c)
+nrfx_make_driver(usbd         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_usbd.c)
+nrfx_make_driver(usbreg       ${nrfx_SOURCE_DIR}/drivers/src/nrfx_usbreg.c)
+nrfx_make_driver(vevif        ${nrfx_SOURCE_DIR}/drivers/src/nrfx_vevif.c)
+nrfx_make_driver(wdt          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
+
+function(nrfx_make_helper name)
+    add_library(nrfx_helpers_${name} STATIC ${ARGN})
+    add_library(nrfx::helpers::${name} ALIAS nrfx_helpers_${name})
+    target_link_libraries(nrfx_helpers_${name} nrfx_hal)
+    target_include_directories(nrfx_helpers_${name}
+        PUBLIC
+            ${nrfx_SOURCE_DIR}/helpers)
+endfunction()
+
+nrfx_make_helper(flag32_allocator ${nrfx_SOURCE_DIR}/helpers/nrfx_flag32_allocator.c)
+nrfx_make_helper(gppi  
+    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi.c
+    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c
+    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
+    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c)
+nrfx_make_helper(ram_ctrl ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
-add_library(nrfx::drivers ALIAS nrfx_drivers)
-add_library(nrfx::helpers ALIAS nrfx_helpers)
