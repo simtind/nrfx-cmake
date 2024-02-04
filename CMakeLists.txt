@@ -118,10 +118,14 @@ endfunction()
 nrfx_make_helper(flag32_allocator ${nrfx_SOURCE_DIR}/helpers/nrfx_flag32_allocator.c)
 nrfx_make_helper(gppi  
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi.c
-    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c
-    ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c)
 nrfx_make_helper(ram_ctrl ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
+
+if (MDK_TARGET_SOC MATCHES nrf54l.*)
+    target_sources(nrfx_helpers_gppi INTERFACE ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c)
+else()
+    target_sources(nrfx_helpers_gppi INTERFACE ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c)
+endif()
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
