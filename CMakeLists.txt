@@ -20,7 +20,7 @@ if (NOT DEFINED NRF_MDK_VERSION)
 endif()
 
 CPMAddPackage(
-    NAME nrf_mdk
+    NAME nrf-mdk
     GITHUB_REPOSITORY simtind/nrf-mdk
     GIT_TAG ${NRF_MDK_VERSION})
 
@@ -29,6 +29,10 @@ CPMAddPackage(
     GITHUB_REPOSITORY NordicSemiconductor/nrfx
     GIT_TAG ${NRFX_VERSION}
     DOWNLOAD_ONLY True)
+
+    
+message ("nrf-mdk_ADDED = ${nrf-mdk_ADDED}")
+message ("nrfx_ADDED = ${nrfx_ADDED}")
  
 add_library(nrfx_hal INTERFACE IMPORTED)
 target_include_directories(nrfx_hal 
