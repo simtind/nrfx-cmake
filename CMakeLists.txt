@@ -34,7 +34,7 @@ CPMAddPackage(
 message ("nrf-mdk_ADDED = ${nrf-mdk_ADDED}")
 message ("nrfx_ADDED = ${nrfx_ADDED}")
  
-add_library(nrfx_hal INTERFACE IMPORTED)
+add_library(nrfx_hal INTERFACE)
 target_include_directories(nrfx_hal 
     INTERFACE
         ${nrfx_SOURCE_DIR}
