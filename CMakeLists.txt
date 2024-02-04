@@ -33,6 +33,7 @@ project(nrfx-cmake C CXX ASM)
 add_library(nrfx_hal INTERFACE)
 target_include_directories(nrfx_hal 
     INTERFACE
+        ${NRFX_CONFIG_DIR}
         ${nrfx_SOURCE_DIR}
         ${nrfx_SOURCE_DIR}/templates
         ${nrfx_SOURCE_DIR}/hal
