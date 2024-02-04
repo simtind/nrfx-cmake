@@ -123,8 +123,6 @@ nrfx_make_helper(gppi
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c)
 nrfx_make_helper(ram_ctrl ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
 
-target_link_libraries(nrfx_helpers_gppi INTERFACE nrfx_drivers_ppi nrfx_drivers_dppi)
-
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
 
