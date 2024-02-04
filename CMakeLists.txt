@@ -52,20 +52,6 @@ target_sources(nrfx_soc
         ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
 target_link_libraries(nrfx_soc nrfx_hal)
 
-add_library(nrfx_helpers STATIC)
-target_include_directories(nrfx_helpers 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/helpers)
-target_sources(nrfx_helpers 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_flag32_allocator.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c
-        ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
-target_link_libraries(nrfx_helpers nrfx_hal)
-
 add_library(nrfx_drivers STATIC)
 target_include_directories(nrfx_drivers
     PUBLIC
@@ -116,6 +102,20 @@ target_sources(nrfx_drivers
         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_vevif.c
         ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
 target_link_libraries(nrfx_drivers nrfx_hal)
+
+add_library(nrfx_helpers STATIC)
+target_include_directories(nrfx_helpers 
+    PUBLIC
+        ${nrfx_SOURCE_DIR}/helpers)
+target_sources(nrfx_helpers 
+    PUBLIC
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_flag32_allocator.c
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi.c
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib.c
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c
+        ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
+target_link_libraries(nrfx_helpers nrfx_hal nrfx_drivers)
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
