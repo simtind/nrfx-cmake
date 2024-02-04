@@ -50,11 +50,12 @@ target_sources(nrfx_soc
         ${nrfx_SOURCE_DIR}/soc/interconnect/apb/nrfx_interconnect_apb.c
         ${nrfx_SOURCE_DIR}/soc/interconnect/dppic_ppib/nrfx_interconnect_dppic_ppib.c
         ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
-target_link_libraries(nrfx_soc nrfx_hal)
+target_link_libraries(nrfx_soc PUBLIC nrfx_hal)
 
 function(nrfx_make_driver name)
     add_library(nrfx_drivers_${name} STATIC ${ARGN})
     add_library(nrfx::drivers::${name} ALIAS nrfx_drivers_${name})
+    target_link_libraries(nrfx_drivers_${name} PUBLIC nrfx_soc)
     target_include_directories(nrfx_drivers_${name}
         PUBLIC
             ${nrfx_SOURCE_DIR}/drivers 
@@ -105,7 +106,7 @@ nrfx_make_driver(wdt          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
 function(nrfx_make_helper name)
     add_library(nrfx_helpers_${name} STATIC ${ARGN})
     add_library(nrfx::helpers::${name} ALIAS nrfx_helpers_${name})
-    target_link_libraries(nrfx_helpers_${name} PUBLIC nrfx_hal)
+    target_link_libraries(nrfx_helpers_${name} PUBLIC nrfx_soc)
     target_include_directories(nrfx_helpers_${name}
         PUBLIC
             ${nrfx_SOURCE_DIR}/helpers)
