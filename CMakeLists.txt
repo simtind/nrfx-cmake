@@ -124,3 +124,12 @@ target_link_libraries(nrfx_helpers_gppi PUBLIC nrfx_drivers_ppi nrfx_drivers_dpp
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
+
+if (NOT DEFINED NRFX_SKIP_FORCE_ENABLE)
+    file(GLOB config_files RELATIVE ${nrfx_SOURCE_DIR}/templates ${nrfx_SOURCE_DIR}/templates/nrfx_config_nrf*.h)
+    foreach(file ${config_files})
+        file(READ ${nrfx_SOURCE_DIR}/templates/${file} FILE_CONTENTS)
+        string(REPLACE "_ENABLED 0" "_ENABLED 1" FILE_CONTENTS ${FILE_CONTENTS})
+        file(WRITE ${nrfx_SOURCE_DIR}/templates/${file} ${FILE_CONTENTS})
+    endforeach()
+endif()
