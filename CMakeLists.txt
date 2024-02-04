@@ -9,8 +9,6 @@ file(
 )
 include(${CMAKE_CURRENT_BINARY_DIR}/cmake/CPM.cmake)
 
-project(nrfx-cmake C CXX ASM)
-
 if (NOT DEFINED NRFX_VERSION)
     set(NRFX_VERSION v3.3.0)
 endif()
@@ -19,16 +17,18 @@ if (NOT DEFINED NRF_MDK_VERSION)
     set(NRF_MDK_VERSION main)
 endif()
 
-CPMAddPackage(
+CPMFindPackage(
     NAME nrf-mdk
     GITHUB_REPOSITORY simtind/nrf-mdk
     GIT_TAG ${NRF_MDK_VERSION})
 
-CPMAddPackage(
+CPMFindPackage(
     NAME nrfx
     GITHUB_REPOSITORY NordicSemiconductor/nrfx
     GIT_TAG ${NRFX_VERSION}
     DOWNLOAD_ONLY True)
+
+project(nrfx-cmake C CXX ASM)
  
 add_library(nrfx_hal INTERFACE)
 target_include_directories(nrfx_hal 
