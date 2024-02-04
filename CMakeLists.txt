@@ -34,6 +34,7 @@ add_library(nrfx_hal INTERFACE)
 target_include_directories(nrfx_hal 
     INTERFACE
         ${nrfx_SOURCE_DIR}
+        ${nrfx_SOURCE_DIR}/templates
         ${nrfx_SOURCE_DIR}/hal
         ${nrfx_SOURCE_DIR}/haly)
 target_link_libraries(nrfx_hal INTERFACE nrf-mdk::definitions)
