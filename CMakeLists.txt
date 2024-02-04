@@ -105,7 +105,7 @@ nrfx_make_driver(wdt          ${nrfx_SOURCE_DIR}/drivers/src/nrfx_wdt.c)
 function(nrfx_make_helper name)
     add_library(nrfx_helpers_${name} STATIC ${ARGN})
     add_library(nrfx::helpers::${name} ALIAS nrfx_helpers_${name})
-    target_link_libraries(nrfx_helpers_${name} nrfx_hal)
+    target_link_libraries(nrfx_helpers_${name} PUBLIC nrfx_hal)
     target_include_directories(nrfx_helpers_${name}
         PUBLIC
             ${nrfx_SOURCE_DIR}/helpers)
@@ -118,6 +118,8 @@ nrfx_make_helper(gppi
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_dppi_ppib_lumos.c
     ${nrfx_SOURCE_DIR}/helpers/nrfx_gppi_ppi.c)
 nrfx_make_helper(ram_ctrl ${nrfx_SOURCE_DIR}/helpers/nrfx_ram_ctrl.c)
+
+target_link_libraries(nrfx_helpers_gppi PUBLIC nrfx_drivers_ppi nrfx_drivers_dppi)
 
 add_library(nrfx::hal ALIAS nrfx_hal)
 add_library(nrfx::soc ALIAS nrfx_soc)
