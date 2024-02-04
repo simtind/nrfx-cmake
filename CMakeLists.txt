@@ -40,16 +40,14 @@ target_include_directories(nrfx_hal
         ${nrfx_SOURCE_DIR}/haly)
 target_link_libraries(nrfx_hal INTERFACE nrf-mdk::definitions)
 
-add_library(nrfx_soc STATIC)
+add_library(nrfx_soc STATIC 
+    ${nrfx_SOURCE_DIR}/soc/nrfx_atomic.c
+    ${nrfx_SOURCE_DIR}/soc/interconnect/apb/nrfx_interconnect_apb.c
+    ${nrfx_SOURCE_DIR}/soc/interconnect/dppic_ppib/nrfx_interconnect_dppic_ppib.c
+    ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
 target_include_directories(nrfx_soc 
     PUBLIC
         ${nrfx_SOURCE_DIR}/soc)
-target_sources(nrfx_soc 
-    PUBLIC
-        ${nrfx_SOURCE_DIR}/soc/nrfx_atomic.c
-        ${nrfx_SOURCE_DIR}/soc/interconnect/apb/nrfx_interconnect_apb.c
-        ${nrfx_SOURCE_DIR}/soc/interconnect/dppic_ppib/nrfx_interconnect_dppic_ppib.c
-        ${nrfx_SOURCE_DIR}/soc/interconnect/ipct/nrfx_interconnect_ipct.c)
 target_link_libraries(nrfx_soc PUBLIC nrfx_hal)
 
 function(nrfx_make_driver name)
