@@ -29,10 +29,6 @@ CPMAddPackage(
     GITHUB_REPOSITORY NordicSemiconductor/nrfx
     GIT_TAG ${NRFX_VERSION}
     DOWNLOAD_ONLY True)
-
-    
-message ("nrf-mdk_ADDED = ${nrf-mdk_ADDED}")
-message ("nrfx_ADDED = ${nrfx_ADDED}")
  
 add_library(nrfx_hal INTERFACE)
 target_include_directories(nrfx_hal 
