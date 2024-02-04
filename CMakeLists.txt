@@ -51,9 +51,11 @@ target_include_directories(nrfx_soc
 target_link_libraries(nrfx_soc PUBLIC nrfx_hal)
 
 function(nrfx_make_driver name)
+    string(TOUPPER ${name} upper_name)
     add_library(nrfx_drivers_${name} STATIC ${ARGN})
     add_library(nrfx::drivers::${name} ALIAS nrfx_drivers_${name})
     target_link_libraries(nrfx_drivers_${name} PUBLIC nrfx_soc)
+    target_compile_definitions(nrfx_drivers_${name} PUBLIC NRFX_${upper_name}_ENABLED=1)
     target_include_directories(nrfx_drivers_${name}
         PUBLIC
             ${nrfx_SOURCE_DIR}/drivers 
